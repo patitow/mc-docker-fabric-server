@@ -1,19 +1,23 @@
-# Minecraft + teste opcional de Cloudflare Tunnel (cloudflared).
+# Minecraft (Fabric) + DDNS Cloudflare (opcional).
 #
-# --- Só o servidor (LAN / port forward) ---
+# --- Só o servidor ---
 #   docker compose up -d
 #
-# --- Com túnel (Zero Trust) ---
-# 1. Zero Trust → Networks → Tunnels → Create → escolhe Docker → copia o TOKEN.
-# 2. Public Hostnames no túnel → Add → Type: TCP
-#    Subdomain: mine  |  Domain: patitow.dev
-#    Service / origin (visto de dentro do Docker):  minecraft:25565
-#    (é o nome do serviço abaixo; não uses localhost aí.)
-# 3. Cria .env com:  TUNNEL_TOKEN=teu_token
-# 4. Sobe:
-#   docker compose --profile tunnel up -d
+# --- Com DDNS (atualiza o A de mine.patitow.dev no Cloudflare) ---
+#   Preenche .env (CLOUDFLARE_API_TOKEN, DDNS_DOMAINS). Depois:
+#   docker compose --profile ddns up -d
 #
-# Para desligar só o túnel: docker compose --profile tunnel stop cloudflared
+# --- mine.patitow.dev (vanilla: domínio → IP público) ---
+# 1. Router: port forward TCP 25565 → IP deste PC na LAN.
+# 2. Cloudflare DNS: registo A para mine (ou o que meteres em DDNS_DOMAINS)
+#    com proxy DESLIGADO (DNS only / nuvem cinzenta). O DDNS cria/atualiza o A.
+# 3. API Token (dash.cloudflare.com → My Profile → API Tokens):
+#    permissões típicas: Zone → DNS → Edit (+ Zone → Zone → Read se o template pedir).
+# 4. Copia .env.example → .env e preenche CLOUDFLARE_API_TOKEN (e DDNS_DOMAINS se mudares o nome).
+# 5. Sobe Minecraft + DDNS:
+#   docker compose --profile ddns up -d
+#
+# Logs do DDNS: docker compose logs -f cloudflare-ddns
 
 services:
   minecraft:
@@ -34,14 +38,15 @@ services:
     tty: true
     restart: unless-stopped
 
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared-mc-tunnel
+  cloudflare-ddns:
+    image: favonia/cloudflare-ddns:1
+    container_name: cloudflare-ddns-mine
+    profiles: ["ddns"]
     restart: unless-stopped
-    profiles: ["tunnel"]
-    command: tunnel --no-autoupdate run
     environment:
-      # Obrigatório quando usas --profile tunnel (define em .env).
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
-    depends_on:
-      - minecraft
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:-}
+      DOMAINS: ${DDNS_DOMAINS:-mine.patitow.dev}
+      # Minecraft precisa de tráfego direto (não proxy laranja).
+      PROXIED: "false"
+      # Evita avisos em redes só IPv4 (comum em casa).
+      IP6_PROVIDER: "none"
