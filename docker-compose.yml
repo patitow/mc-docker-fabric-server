@@ -1,3 +1,20 @@
+# Minecraft + teste opcional de Cloudflare Tunnel (cloudflared).
+#
+# --- Só o servidor (LAN / port forward) ---
+#   docker compose up -d
+#
+# --- Com túnel (Zero Trust) ---
+# 1. Zero Trust → Networks → Tunnels → Create → escolhe Docker → copia o TOKEN.
+# 2. Public Hostnames no túnel → Add → Type: TCP
+#    Subdomain: mine  |  Domain: patitow.dev
+#    Service / origin (visto de dentro do Docker):  minecraft:25565
+#    (é o nome do serviço abaixo; não uses localhost aí.)
+# 3. Cria .env com:  TUNNEL_TOKEN=teu_token
+# 4. Sobe:
+#   docker compose --profile tunnel up -d
+#
+# Para desligar só o túnel: docker compose --profile tunnel stop cloudflared
+
 services:
   minecraft:
     build: .
@@ -16,3 +33,15 @@ services:
     stdin_open: true
     tty: true
     restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-mc-tunnel
+    restart: unless-stopped
+    profiles: ["tunnel"]
+    command: tunnel --no-autoupdate run
+    environment:
+      # Obrigatório quando usas --profile tunnel (define em .env).
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      - minecraft
