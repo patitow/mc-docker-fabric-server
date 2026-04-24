@@ -1,0 +1,48 @@
+# --- Minecraft / Fabric: pesado ou regenerável ---
+world/
+libraries/
+.fabric/
+logs/
+versions/
+crash-reports/
+debug/
+
+# Cache JVM / instalador
+.cache/
+
+# Pasta reservada (compose antigo); dados reais ficam na raiz com .:/data
+data/
+
+# Locks e caches de sessão
+**/session.lock
+usercache.json
+usernamecache.json
+
+# EULA é aceite via Docker (EULA=true); não precisa no Git
+eula.txt
+
+# Logs soltos na raiz do projeto
+*.log
+
+# Configs geradas pelos mods (JSON/TOML/etc.) — recriam ao subir o servidor.
+# Mantém no Git só os globais na raiz: ops.json, whitelist.json, banned-*.json
+config/
+defaultconfigs/
+
+# --- SO / editor ---
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# --- Segredos locais ---
+.env
+.env.*
+!.env.example
+
+# --- Spark / profiler (pastas grandes se geradas) ---
+spark/
+mods/

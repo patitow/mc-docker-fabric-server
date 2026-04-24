@@ -1,0 +1,18 @@
+services:
+  minecraft:
+    build: .
+    container_name: fabric-mc
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "true"
+      MEMORY: 4G
+      SERVER_JAR: fabric-server-mc.26.1.2-loader.0.19.2-launcher.1.1.1.jar
+    # Bind mount: NADA é apagado ao parar o container. Mundo = ./world (level-name),
+    # configs = ./config, ./server.properties, etc. — tudo fica no disco do Windows.
+    # Servidor Fabric precisa do .jar + libraries/ + mods/ no mesmo diretório (como no run.bat).
+    volumes:
+      - .:/data
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
