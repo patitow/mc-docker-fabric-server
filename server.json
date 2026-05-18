@@ -1,0 +1,14 @@
+{
+  "updated": "2026-05-18",
+  "minecraft": "26.1.2",
+  "fabric_loader": "0.19.2",
+  "server_jar": "fabric-server-mc.26.1.2-loader.0.19.2-launcher.1.1.1.jar",
+  "java": "25",
+  "memory": "4G",
+  "world": "world",
+  "domain": "mine.patitow.dev",
+  "port_java_tcp": 25565,
+  "port_bedrock_udp": 19132,
+  "geyser_config": "config/Geyser-Fabric/config.yml",
+  "geyser_auth_type": "floodgate"
+}

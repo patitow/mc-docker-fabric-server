@@ -24,7 +24,8 @@ services:
     build: .
     container_name: fabric-mc
     ports:
-      - "25565:25565"
+      - "25565:25565"       # Java Edition (TCP)
+      - "19132:19132/udp"   # Bedrock via Geyser (UDP)
     environment:
       EULA: "true"
       MEMORY: 4G

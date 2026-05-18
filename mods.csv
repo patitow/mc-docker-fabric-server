@@ -1,0 +1,18 @@
+file,category,description
+fabric-api-0.146.1+26.1.2.jar,core,Fabric API (obrigatorio)
+Geyser-Fabric.jar,bedrock,Ponte Bedrock para Java (UDP 19132)
+Floodgate-Fabric-2.2.6-b63.jar,bedrock,Login Bedrock sem conta Java
+lithium-fabric-0.24.2+mc26.1.2.jar,performance,Otimizacoes de servidor
+krypton-0.3.0.jar,performance,Otimizacao de rede
+connectivity-fabric-26.1-7.6.jar,performance,Conectividade/pacotes
+smoothchunk-fabric-26.1-4.2.jar,performance,Carregamento de chunks
+fastasyncworldsave-fabric-26.1-2.6.jar,performance,Gravacao async do mundo
+Clumps-fabric-26.1.2-26.1.2.1.jar,performance,Agrupa orbs de XP
+getittogetherdrops-fabric-26.1.1-1.5.1.jar,gameplay,Drops agrupados
+letmedespawn-1.26.x-fabric-1.6.2.1.jar,gameplay,Despawn de mobs
+structureessentials-fabric-26.1-5.0.jar,gameplay,Estruturas/geracao
+cupboard-fabric-26.1-3.7.jar,gameplay,Utilitarios (dependencia)
+almanac-1.26.x-fabric-1.6.2.1.jar,gameplay,Utilitarios NBT
+skinrestorer-2.7.1+26.1-fabric.jar,skins,Skins custom (offline)
+ForgeConfigAPIPort-v26.1.3-mc26.1.x-Fabric.jar,compat,API de config Forge/NeoForge
+spark-1.10.172-fabric.jar,admin,Profiler /spark
